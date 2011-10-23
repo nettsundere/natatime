@@ -1,0 +1,6 @@
+std: &std
+  path: /var/www/sockets/redis.sock
+
+test:
+  <<: *std
+  db: 1

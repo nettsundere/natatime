@@ -5,22 +5,24 @@ module Natatime
 
     before :each do
       @@redis.flushall
-      @store = Store.new @@redis
-      @store.add_at! "депутат"
-      @store.add_at! "военкомат"      
+      store = Store.new @@redis
+      
+      %w{депутат военкомат компромат автомат штат}.each {|i| store.add_at! i}
+      %w{дверь окно внучка ручка тучка}.each {|i| store.add_noun! i}
+      %w{скорая новая красная}.each {|i| store.add_adjective! i}
+      %w{лопата вата дата}.each {|i| store.add_ata! i}
+       
+      @lyr_gen = Lyrics.new store 
     end      
 
-    describe "#compose" do      
-      before :each do
-        @lyrics = Lyrics.new @store
+    describe "#compose" do
+      it "should compose lyrics for the required format" do
+        composed = @lyr_gen.compose :at, :at, :at, :at, :at, :ata
+        composed.should have(6).grep(/ата$/)
       end
       
-      it "should raise an error when negative lines count required" do
-        lambda { @lyrics.compose(-1) }.should raise_error
-      end 
-      
-      it "should return required number of lines" do
-        @lyrics.compose(10).should have(10).items
+      it "should raise an error when unsupported line format specified" do
+        lambda { @lyr_gen.compose :at, :bad_format }.should raise_error
       end
     end
   end

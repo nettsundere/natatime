@@ -2,10 +2,12 @@
 require 'unicode'
 
 module Natatime
+
+  # Natatime redis-based words storage.
   class Store
     @@generator = Random.new
     
-    # Initialize the Natatime redis-based words storage.
+    # Initialization.
     # Redis connection should be passed as parameter.
     def initialize(redis_connection) 
       @redis = redis_connection
@@ -66,6 +68,10 @@ module Natatime
     class RequiredNegativeError < StandardError
     end
     
+    # Error: we can't load this number of elements.
+    class NotEnoughElementsError < StandardError
+    end
+    
     private
     
       # Get the number of at' words in the storage.
@@ -92,11 +98,12 @@ module Natatime
       # Maximum sequence size can be passed as parameter.
       def load_from(list_name, elements_count, required, max_sequence_size = 10)
         raise RequiredNegativeError if required < 0
-        can_return = [elements_count, required].min # Maximum number of items we can return.
+        raise NotEnoughElementsError unless required <= elements_count
+        
         req_words = []
-        while req_words.size < can_return
+        while req_words.size < required
           start = @@generator.rand(0..elements_count)
-          sequence_size = [can_return - req_words.size, max_sequence_size].min
+          sequence_size = [required - req_words.size, max_sequence_size].min
           req_words = req_words | @redis.lrange(list_name, start, start + sequence_size - 1)
         end
         req_words

@@ -1,8 +1,8 @@
 module Natatime # :nodoc:
   module Version # :nodoc:
-    MAJOR = 0
+    MAJOR = 1
     MINOR = 0
-    TINY = 1
+    TINY = 0
     PRE = nil
 
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')

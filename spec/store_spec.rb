@@ -19,33 +19,45 @@ module Natatime
         it "should add at_word and 'а' letter to the end of it; at word should be in lowercase" do
           @st.add_at! "ДепуТат"
           @st.add_at! "КомпрОмат"
-          @st.load_ats(100).should =~ %w{депутата компромата}
+          @st.load_ats(2).should =~ %w{депутата компромата}
         end
         
         it "should increase words count" do
           expect { @st.add_at! "штат" }.to change(@st, :words_count).from(0).to(1) 
+        end
+        
+        it "should raise an error when (maximum + 1) of elements requested" do
+          lambda { @st.load_ats(3) }.should raise_error
         end
       end
 
       describe "#add_ata!" do
         it "should add ata_word; ata word should be in lowercase" do
           @st.add_ata! "лОпАта"
-          @st.load_atas(100).should == %w{лопата}   
+          @st.load_atas(1).should == %w{лопата}   
         end
         
         it "should increase words count" do
           expect { @st.add_ata! "лопата" }.to change(@st, :words_count).from(0).to(1) 
+        end
+        
+        it "should raise an error when (maximum + 1) of elements requested" do
+          lambda { @st.load_atas(2) }.should raise_error
         end
       end
     
       describe "#add_noun" do
         it "should add noun word; noun word should be in lowercase" do
           @st.add_noun! "дВерь"
-          @st.load_nouns(100).should == %w{дверь}   
+          @st.load_nouns(1).should == %w{дверь}   
         end
         
         it "should increase words count" do
           expect { @st.add_noun! "лопата" }.to change(@st, :words_count).from(0).to(1) 
+        end
+        
+        it "should raise an error when (maximum + 1) of elements requested" do
+          lambda { @st.load_nouns(2) }.should raise_error
         end
       end
 
@@ -54,11 +66,15 @@ module Natatime
             adjective should be in lowercase" do
           @st.add_adjective! "острый"
           @st.add_adjective! "звездный"
-          @st.load_adjectives(100).should =~ %w{острая звездная}        
+          @st.load_adjectives(2).should =~ %w{острая звездная}        
         end
         
         it "should increase words count" do
           expect { @st.add_adjective! "звездный" }.to change(@st, :words_count).from(0).to(1) 
+        end
+        
+        it "should raise an error when (maximum + 1) of elements requested" do
+          lambda { @st.load_adjectives(3) }.should raise_error
         end
       end
     end

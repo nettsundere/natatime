@@ -96,7 +96,7 @@ module Natatime
       
       # Load required items from list with elements_count elements.
       # Maximum sequence size can be passed as parameter.
-      def load_from(list_name, elements_count, required, max_sequence_size = 10)
+      def load_from(list_name, elements_count, required, max_sequence_size = 3)
         raise RequiredNegativeError if required < 0
         raise NotEnoughElementsError unless required <= elements_count
         

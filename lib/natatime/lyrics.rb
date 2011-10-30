@@ -15,8 +15,15 @@ module Natatime
       # an exception, because we don't know how to create such line.
       raise StyleIsNotSupportedError if need_ats + need_atas != format.size
       
-      ats_data = [@storage.load_nouns(need_ats).each, @storage.load_ats(need_ats).each]
-      atas_data = [@storage.load_adjectives(need_atas).each, @storage.load_atas(need_atas).each]
+      ats_data = [
+        @storage.load_nouns(need_ats).shuffle.each, 
+        @storage.load_ats(need_ats).shuffle.each
+      ]
+      
+      atas_data = [
+        @storage.load_adjectives(need_atas).shuffle.each, 
+        @storage.load_atas(need_atas).shuffle.each
+      ]
       
       format.map do |line_format|
         if line_format == :at

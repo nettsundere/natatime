@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
   s.description = "natatime. Poems about nata"
   s.files = Dir["{lib/*,lib/*/*,spec/*}"] + %w{README.md}
   s.add_dependency("unicode", ">= 0.4.0")
+  s.add_development_dependency "configured"
 end

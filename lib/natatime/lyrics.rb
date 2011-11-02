@@ -34,10 +34,6 @@ module Natatime
       end  
     end
     
-    # Error: we can't require negative number of lines.
-    class RequiredNegativeLinesCountError < StandardError
-    end
-    
     # Error: required line style isn't supported.
     class StyleIsNotSupportedError < StandardError
     end

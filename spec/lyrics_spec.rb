@@ -1,11 +1,12 @@
 # Encoding: UTF-8
 require 'spec_helper'
+
 module Natatime
   describe Lyrics do
-
     before :each do
-      @@redis.flushall
-      store = Store.new @@redis
+      @redis = Spec::redis_connect 
+      @redis.flushall
+      store = Store.new @redis
       
       %w{депутат военкомат компромат автомат штат}.each {|i| store.add_at! i}
       %w{дверь окно внучка ручка тучка}.each {|i| store.add_noun! i}
@@ -13,8 +14,10 @@ module Natatime
       %w{лопата вата дата}.each {|i| store.add_ata! i}
        
       @lyr_gen = Lyrics.new store 
-    end      
-
+    end
+    
+    after(:each) { Spec::redis_disconnect @redis }
+    
     describe "#compose" do
       it "should compose lyrics for the required format" do
         composed = @lyr_gen.compose :at, :at, :at, :at, :at, :ata

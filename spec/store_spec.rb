@@ -4,9 +4,12 @@ require 'spec_helper'
 module Natatime
   describe Natatime do
     before :each do
-      @@redis.flushall
-      @st = Store.new @@redis
+      @redis = Spec::redis_connect
+      @redis.flushall
+      @st = Store.new @redis
     end  
+    
+    after(:each) { Spec::redis_disconnect @redis }
     
     describe "#new" do      
       it "should be empty after the initialize" do

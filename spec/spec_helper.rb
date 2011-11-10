@@ -8,7 +8,7 @@ module Spec
   class << self
     # Connect to the redis db.
     def redis_connect
-      Redis.new(Configured::in_yaml(@@db_config_file)::for_the :test)
+      Redis.new(Configured.in_yaml(@@db_config_file).for_the :test)
     end
     
     # Disconnect redis db.

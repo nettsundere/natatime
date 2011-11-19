@@ -15,5 +15,6 @@ Gem::Specification.new do |s|
   s.files = Dir["{lib/*,lib/*/*,spec/*}"] + %w{README.md}
   s.add_dependency("unicode", ">= 0.4.0")
   s.add_dependency "redis"
+  s.add_development_dependency "rspec"
   s.add_development_dependency "configured"
 end
